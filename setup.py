@@ -6,6 +6,15 @@ root_dir = os.path.dirname(__file__)
 if root_dir:
     os.chdir(root_dir)
 
+
+# TODO
+# Change every instance of `your_library_name` to the name of your library.
+# Change `author`
+# Change `author_email`
+# Change `url`
+# Change the PyPI classifiers: https://pypi.org/pypi?%3Aaction=list_classifiers
+
+
 # Probably should be changed, __init__.py is no longer required for Python 3
 for dirpath, dirnames, filenames in os.walk('your_library_name'):
     # Ignore dirnames that start with '.'
