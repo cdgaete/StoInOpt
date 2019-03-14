@@ -32,7 +32,7 @@ install:
       conda create -n test-environment python=$TRAVIS_PYTHON_VERSION <add your conda dependencies here> pytest pytest-cov coveralls;
       source activate test-environment;
       pip install <add any other dependencies not available in conda here>;
-      python setup.py install;
+      pip3 install -e .;
     else
       pip3 install -r ci/requirements-travis.txt;
       pip3 install -e .;
@@ -42,6 +42,7 @@ script:
       pwd;
       ls;
       pytest --cov=<your_library_name>;
+      coveralls;
     else
       pytest;
     fi
