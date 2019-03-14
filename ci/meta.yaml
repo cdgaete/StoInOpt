@@ -1,0 +1,40 @@
+package:
+  name: bentso-dev
+  version: {{ environ['VERSION'] }}
+
+source:
+  path: ..
+
+build:
+  noarch_python: True
+  number: 0
+  script: python setup.py install --single-version-externally-managed --record record.txt
+  script_env:
+   - VERSION
+   - CONDA_BLD_PATH
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - python
+    - appdirs
+    - beautifulsoup4
+    - docopt
+    - entsoe-py
+    - pandas
+    - pytest
+    - pytest-cov
+    - pytz
+    - requests
+
+test:
+  imports:
+    - bentso
+
+about:
+  home: https://github.com/BONSAMURAIS/bentso
+  license: BSD License
+  summary: 'BONSAI living model for European electricity via ENTSO-E API'
+license_family: BSD
