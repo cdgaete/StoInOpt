@@ -46,13 +46,17 @@ Otherwise, do the following:
 
 ## Documentation
 
-We recommend building documentation using [sphinx](), and hosting documentation on [Github pages](http://www.sphinx-doc.org/en/master/) or [read the docs](https://readthedocs.org/). Github pages is easier to configure, while read the docs will build automatically with each pushed commit.
+We recommend building documentation using [sphinx](http://www.sphinx-doc.org/en/master/), and hosting documentation on [Github pages](https://pages.github.com/) or [read the docs](https://readthedocs.org/). Github pages is easier to configure, while read the docs will build automatically with each pushed commit.
 
 To start the documentation structure, first install `sphinx` using conda or pip. Then change to the `docs` directory, and run `sphinx-quickstart`. We suggest the following **non-default** configuration values (otherwise the default is fine):
 
 * autodoc: automatically insert docstrings from modules (y/n): `y`
 * mathjax: include math, rendered in the browser by MathJax (y/n): `y`
 * githubpages: create .nojekyll file to publish the document on GitHub pages (y/n): `y` if using Github pages
+
+Note that the default format for writing code is [RestructuredText](http://docutils.sourceforge.net/rst.html), which is different than markdown (what is used in Github, and this readme). You can use [markdown with sphinx](https://www.sphinx-doc.org/en/master/usage/markdown.html).
+
+There are other options for documenting code; the two most popular being [Asciidoctor](https://asciidoctor.org/) and [MkDocs](https://www.mkdocs.org/).
 
 ## Testing
 
