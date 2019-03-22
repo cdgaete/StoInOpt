@@ -34,7 +34,7 @@ install:
       pip install <add any other dependencies not available in conda here>;
       pip3 install -e .;
     else
-      pip3 install -r ci/requirements-travis.txt;
+      pip3 install -r ci/macos-travis.txt;
       pip3 install -e .;
     fi
 script:
@@ -43,6 +43,10 @@ script:
       ls;
       pytest --cov=<your_library_name>;
       coveralls;
+      if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
+        conda install conda-build anaconda-client conda-verify;
+        bash ci/conda_upload.sh;
+      fi
     else
       pytest;
     fi

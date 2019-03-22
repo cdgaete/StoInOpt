@@ -100,3 +100,19 @@ Edit the file `.appveyor.yml`, and change following:
 * `<add any other dependencies not available in conda here>`: Change this to a list of dependencies not in conda, or delete this line
 
 Log in using your GitHub account, and add the repository you want to test. Then, click on settings, and change the `Custom configuration .yml file name` to `.appveyor.yml`. Appveyor will now run on every pushed commit.
+
+## Conda `dev` package automatic uploads
+
+This section describes how to set up `travis` to upload a development version of your library every time the CI tests run. If you don't want this, then please delete the following section from `.travis.yml`:
+
+    if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then
+        conda install conda-build anaconda-client conda-verify;
+        bash ci/conda_upload.sh;
+    fi
+
+Otherwise, please do the following. This instructions are based off a [helpful gist](https://gist.github.com/zshaheen/fe76d1507839ed6fbfbccef6b9c13ed9):
+
+* Create an account on anaconda.org.
+* Create an access token. Go to `settings` > `access`, and check "Allow write access to the API site" and "Allow read access to the API site". Then give your token a name like "changethis-dev-upload" (the name doesn't matter, choose something that you will recognize in six months), and generate the token. Copy the generated string somewhere safe (DON'T share this).
+* Log in to travis, click on your library, and then go to `more options` >  `settings`, and scroll down to "environment variables". Enter the variable "CONDA_UPLOAD_TOKEN" with the token you just generated.
+* Change every field in `ci/meta.yaml`, `ci/macos-requirements.txt`, and `ci/conda_upload.sh` that has a `<>`.

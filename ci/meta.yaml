@@ -1,5 +1,5 @@
 package:
-  name: bentso-dev
+  name: <your_library_name>-dev
   version: {{ environ['VERSION'] }}
 
 source:
@@ -19,22 +19,14 @@ requirements:
     - setuptools
   run:
     - python
-    - appdirs
-    - beautifulsoup4
-    - docopt
-    - entsoe-py
-    - pandas
-    - pytest
-    - pytest-cov
-    - pytz
-    - requests
+    - <other conda dependencies>
 
 test:
   imports:
-    - bentso
+    - {{ name }}
 
 about:
-  home: https://github.com/BONSAMURAIS/bentso
+  home: <Github repo URL>
   license: BSD License
-  summary: 'BONSAI living model for European electricity via ENTSO-E API'
+  summary: '<One line description>'
 license_family: BSD
