@@ -116,3 +116,7 @@ Otherwise, please do the following. This instructions are based off a [helpful g
 * Create an access token. Go to `settings` > `access`, and check "Allow write access to the API site" and "Allow read access to the API site". Then give your token a name like "changethis-dev-upload" (the name doesn't matter, choose something that you will recognize in six months), and generate the token. Copy the generated string somewhere safe (DON'T share this).
 * Log in to travis, click on your library, and then go to `more options` >  `settings`, and scroll down to "environment variables". Enter the variable "CONDA_UPLOAD_TOKEN" with the token you just generated.
 * Change every field in `ci/meta.yaml`, `ci/macos-requirements.txt`, and `ci/conda_upload.sh` that has a `<>`.
+
+## Upload to `pypi`
+
+After you have set everything up, you can already upload a ``0.0.1`` version. This is a good idea for two reasons: You will reserve your awesome project name, and you make your project more visible - outside collaborators might surprise you by just showing up! To upload to pypi, you should install `twine <https://github.com/pypa/twine>`__ via the usual channels. Then, in your library directory (i.e. the one where ``setup.py`` is), run ``python setup.py sdist bdist_wheel`` and ``twine upload/my_awesome_stuff*.*``.
