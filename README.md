@@ -119,4 +119,8 @@ Otherwise, please do the following. This instructions are based off a [helpful g
 
 ## Upload to `pypi`
 
-After you have set everything up, you can already upload a `0.0.1` version. You will need a [pypi account first](https://pypi.org/) ([store your account credentials](https://docs.python.org/3.7/distutils/packageindex.html#pypirc)). This is a good idea for two reasons: You will reserve your awesome project name, and you make your project more visible - outside collaborators might surprise you by just showing up! To upload to pypi, you should install [twine](https://github.com/pypa/twine) via the usual channels. Then, in your library directory (i.e. the one where `setup.py` is), run `python setup.py sdist bdist_wheel` and `twine upload/my_awesome_stuff*.*`.
+After you have set everything up, you can already upload a `0.0.1` version. You will need a [pypi account first](https://pypi.org/) ([store your account credentials](https://docs.python.org/3.7/distutils/packageindex.html#pypirc)). This is a good idea for two reasons: You will reserve your awesome project name, and you make your project more visible - outside collaborators might surprise you by just showing up! To upload to pypi, you should install [twine](https://github.com/pypa/twine) via the usual channels. Then, in your library directory (i.e. the one where `setup.py` is), run `python setup.py sdist bdist_wheel` and `twine upload dist/my_awesome_stuff*.*`.
+
+## Releasing a new version
+
+Versions should follow the [semantic versioning standard](Semantic Versioning](https://semver.org/spec/v2.0.0.html). To release a new version, you should add a description of the changes to the `CHANGELOG.md`, then change the version number in both `setup.py` and `<my_library>/__init__.py`. You can then create the distribution and upload it as before with `python setup.py` and `twine`.
