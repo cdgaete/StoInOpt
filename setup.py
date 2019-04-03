@@ -43,7 +43,7 @@ setup(
     # package_data={'BONSAI team': package_files(os.path.join('grafter', 'data'))},
     entry_points = {
         'console_scripts': [
-            'grafter-cli = grafter.bin.grafter_cli:main',
+            'grafter-cli = grafter.bin.rename_me_cli:main',
         ]
     },
     install_requires=[
