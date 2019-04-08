@@ -16,7 +16,7 @@ if root_dir:
 
 
 # Probably should be changed, __init__.py is no longer required for Python 3
-for dirpath, dirnames, filenames in os.walk('your_library_name'):
+for dirpath, dirnames, filenames in os.walk('storinopt'):
     # Ignore dirnames that start with '.'
     if '__init__.py' in filenames:
         pkg = dirpath.replace(os.path.sep, '.')
@@ -34,26 +34,28 @@ def package_files(directory):
 
 
 setup(
-    name='your_library_name',
+    name='storinopt',
     version="0.1",
     packages=packages,
-    author="your_name_here",
-    author_email="your_email_here",
+    author="Carlos Gaete",
+    author_email="cdgaete@gmail.com",
     license=open('LICENSE').read(),
     # Only if you have non-python data (CSV, etc.). Might need to change the directory name as well.
     # package_data={'your_name_here': package_files(os.path.join('your_library_name', 'data'))},
     entry_points = {
         'console_scripts': [
-            'your_library_name-cli = your_library_name.bin.rename_me_cli:main',
+            'storinopt-cli = storinopt.bin.rename_me_cli:main',
         ]
     },
     install_requires=[
         'appdirs',
         'docopt',
+        'pyomo',
+        'pandas',
     ],
-    url="your_url_here",
+    url="https://github.com/cdgaete/StoInOpt",
     long_description=open('README.md').read(),
-    description='your_name_here',
+    description='Estimation of the electricity consumption of storage options in a determined power market',
     classifiers=[
         'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Developers',
