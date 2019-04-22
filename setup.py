@@ -16,7 +16,7 @@ if root_dir:
 
 
 # Probably should be changed, __init__.py is no longer required for Python 3
-for dirpath, dirnames, filenames in os.walk('stoinopt'):
+for dirpath, dirnames, filenames in os.walk('StoInOpt'):
     # Ignore dirnames that start with '.'
     if '__init__.py' in filenames:
         pkg = dirpath.replace(os.path.sep, '.')
@@ -34,7 +34,7 @@ def package_files(directory):
 
 
 setup(
-    name='stoinopt',
+    name='StoInOpt',
     version="0.1",
     packages=packages,
     author="Carlos Gaete",
@@ -44,7 +44,7 @@ setup(
     # package_data={'your_name_here': package_files(os.path.join('your_library_name', 'data'))},
     entry_points = {
         'console_scripts': [
-            'stoinopt-cli = stoinopt.bin.rename_me_cli:main',
+            'StoInOpt-cli = StoInOpt.bin.rename_me_cli:main',
         ]
     },
     install_requires=[
