@@ -1,8 +1,8 @@
 from pyomo.environ import *
 from pyomo.solvers.plugins import *
 from pyomo.opt import SolverFactory
-from .filesystem import create_dir
-from .client import CachingDataClient
+from bentso.filesystem import create_dir
+from bentso.client import CachingDataClient
 import os
 
 # LP model
@@ -70,8 +70,7 @@ def PHS_consumption_subtraction(ctr,year,storage_hours = 6, roundtrip_eff = 0.7,
     temp_path = os.path.join(cwd,'temp_opt')
     create_dir(temp_path)
     
-    #here is missing call
-    
+    c = CachingDataClient()
     ctr_yr = c.get_generation(ctr,year)
     ctr_price = c.get_day_ahead_prices(ctr,year)
     ctr_cap = c.get_capacity(ctr,year)
