@@ -3,6 +3,7 @@ from pyomo.solvers.plugins import *
 from pyomo.opt import SolverFactory
 from bentso.filesystem import create_dir
 from bentso.client import CachingDataClient
+import pandas as pd
 import os
 
 # LP model
