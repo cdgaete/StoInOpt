@@ -110,7 +110,7 @@ class Model:
         self.new = self.ctr_yr.copy()
         self.new.drop('Hydro Pumped Storage',axis=1,inplace=True)
         self.ctr_gen = pd.DataFrame()
-        self.ctr_gen = self.new.apply(lambda row: row/row.sum(),axis=1)*consumption_phs.values
+        self.ctr_gen = self.new.apply(lambda row: row/row.sum(),axis=1)*self.consumption_phs.values
         self.ctr_year = self.new - self.ctr_gen
         self.ctr_year.loc[:,'Hydro Pumped Storage'] = self.ctr_yr['Hydro Pumped Storage']
         return self.ctr_year
