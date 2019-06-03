@@ -113,11 +113,11 @@ class Model:
             self.cons_list.append({'Cons_phs':round(value(self.instance.CONSUMPTION_phs[h]),1)})
 
         self.consumption_phs = pd.DataFrame(self.cons_list)
-        self.ctr_yr.reset_index(drop=True,inplace=True)
-        self.new = self.ctr_yr.copy()
-        self.new.drop('Hydro Pumped Storage',axis=1,inplace=True)
-        self.ctr_gen = pd.DataFrame()
-        self.ctr_gen = self.new.apply(lambda row: row/row.sum(),axis=1)*self.consumption_phs.values
-        self.ctr_year = self.new - self.ctr_gen
-        self.ctr_year.loc[:,'Hydro Pumped Storage'] = self.ctr_yr['Hydro Pumped Storage']
-        return self.ctr_year
+        # self.ctr_yr.reset_index(drop=True,inplace=True)
+        # self.new = self.ctr_yr.copy()
+        # self.new.drop('Hydro Pumped Storage',axis=1,inplace=True)
+        # self.ctr_gen = pd.DataFrame()
+        # self.ctr_gen = self.new.apply(lambda row: row/row.sum(),axis=1)*self.consumption_phs.values
+        # self.ctr_year = self.new - self.ctr_gen
+        # self.ctr_year.loc[:,'Hydro Pumped Storage'] = self.ctr_yr['Hydro Pumped Storage']
+        # return self.ctr_year
