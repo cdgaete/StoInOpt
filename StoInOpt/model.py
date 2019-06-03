@@ -63,7 +63,7 @@ class Model:
         self.storage_hours = storage_hours
         self.roundtrip_eff = roundtrip_eff
         self.initial_E_share = initial_E_share
-        self.sense =
+        self.sense = sense
         
     def run(self):
         
