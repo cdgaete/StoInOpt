@@ -59,7 +59,7 @@ class Model:
     """docstring for "ctr,year,storage_hours = 6, roundtrip_eff = 0.7, initial_E_share = 1"  """
     def __init__(self,ctr,year,storage_hours = 6, roundtrip_eff = 0.7, initial_E_share = 1):
         self.ctr = ctr
-        self.year = ctr_year
+        self.year = year
         self.storage_hours = storage_hours
         self.roundtrip_eff = roundtrip_eff
         self.initial_E_share = initial_E_share
