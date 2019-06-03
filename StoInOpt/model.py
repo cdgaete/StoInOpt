@@ -73,7 +73,9 @@ class Model:
         
         c = CachingDataClient()
         self.ctr_yr = c.get_generation(self.ctr,self.year)
+        self.ctr_yr.groupby([self.ctr_yr.index.hour]).mean()
         self.ctr_price = c.get_day_ahead_prices(self.ctr,self.year)
+        self.ctr_price.groupby([self.ctr_price.index.hour]).mean()
         self.ctr_cap = c.get_capacity(self.ctr,self.year)
         '''
         here we have to check the resolution of the data,
