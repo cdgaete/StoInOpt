@@ -16,7 +16,7 @@ def LoadModelData():
     data.load(filename= os.path.join(temp_path,'scalar.dat'))
     return data
     
-def StorageConsumptionAllocation():
+def StorageConsumptionAllocation(sense):
     
     m = AbstractModel()
     # Sets
@@ -38,7 +38,7 @@ def StorageConsumptionAllocation():
     def objective_rule(m):
         return sum(m.CONSUMPTION_phs[h]*m.ClearingPrice[h] for h in m.H)
     # verify the data of clearing price to check if the generation ocours at pick prices, in that case set 'sense=minimize'
-    m.OBJ = Objective(rule=objective_rule,sense=maximize)
+    m.OBJ = Objective(rule=objective_rule,sense=sense)
     def C1(m,h):
         if h == 0:
             return m.ENERGY_LEVEL_phs[h] == m.initial_E_share*m.MAX_ENERGY_phs + m.CONSUMPTION_phs[h]*(m.roundtrip_eff+1)/2 - m.gen_phs[h]/(m.roundtrip_eff+1)*2
@@ -56,13 +56,14 @@ def StorageConsumptionAllocation():
 # LP model
 
 class Model:
-    """docstring for "ctr,year,storage_hours = 6, roundtrip_eff = 0.7, initial_E_share = 1"  """
-    def __init__(self,ctr,year,storage_hours = 6, roundtrip_eff = 0.7, initial_E_share = 1):
+    """docstring for "ctr,year,storage_hours = 6, roundtrip_eff = 0.7, initial_E_share = 1, sense = 1"  """
+    def __init__(self,ctr,year,storage_hours = 6, roundtrip_eff = 0.7, initial_E_share = 1, sense = 1):
         self.ctr = ctr
         self.year = year
         self.storage_hours = storage_hours
         self.roundtrip_eff = roundtrip_eff
         self.initial_E_share = initial_E_share
+        self.sense =
         
     def run(self):
         
@@ -92,7 +93,7 @@ class Model:
             for k, v in self.scalar.items():
                  self.f.write("table %s := %f; \r\n"%(k,v))
             self.f.close()
-            self.LP = StorageConsumptionAllocation()
+            self.LP = StorageConsumptionAllocation(self.sense)
             self.data = LoadModelData()
             self.instance = self.LP.create_instance(self.data)
             self.opt = SolverFactory('clp') # clp is the solver, in windows the .exe file has to be stated as the example: SolverFactory('glpk', executable='C:/bin/glpk/w64/glpsol.exe')
