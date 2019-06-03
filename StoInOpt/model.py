@@ -93,6 +93,8 @@ class Model:
         self.pcs.to_csv(os.path.join(self.temp_path,'spot_prices.csv'),index_label='H')
         if len(self.gen) == len(self.pcs):
             self.cap_phs = self.ctr_cap['Hydro Pumped Storage'][0]
+            if self.gen.max() < self.cap_phs:
+                self.cap_phs = self.gen.max()
             self.scalar = {'cap_phs':self.cap_phs,'storage_hours':self.storage_hours,'roundtrip_eff':self.roundtrip_eff,'initial_E_share':self.initial_E_share}
 
             self.f=open(os.path.join(self.temp_path,"scalar.dat"), "w+")
