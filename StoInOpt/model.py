@@ -74,11 +74,11 @@ class Model:
         c = CachingDataClient()
         self.ctr_yr = c.get_generation(self.ctr,self.year)
         # print(self.ctr_yr)
-        # self.ctr_yr.groupby([self.ctr_yr.index.hour]).mean()
+        self.ctr_yr.groupby([self.ctr_yr.index.hour]).mean()
         # print(self.ctr_yr )
         self.ctr_price = c.get_day_ahead_prices(self.ctr,self.year)
         # print(self.ctr_price)
-        # self.ctr_price.groupby([self.ctr_price.index.hour]).mean()
+        self.ctr_price.groupby([self.ctr_price.index.hour]).mean()
         # print(self.ctr_price)
         self.ctr_cap = c.get_capacity(self.ctr,self.year)
         '''
@@ -87,8 +87,8 @@ class Model:
         DE 2016 presents the generation every 15 minutes while the prices is hourly.
         Now the model shows an error for this case.
         '''
-        self.gen = pd.DataFrame(self.ctr_yr['Hydro Pumped Storage']).reset_index(drop=True).rename(columns={'Hydro Pumped Storage':'gen_phs'})
-        self.pcs = pd.DataFrame(self.ctr_price, columns=['ClearingPrice']).reset_index(drop=True)
+        self.gen = pd.DataFrame(self.ctr_yr['Hydro Pumped Storage']).reset_index(drop=True).rename(columns={'Hydro Pumped Storage':'gen_phs'})[0:8760]
+        self.pcs = pd.DataFrame(self.ctr_price, columns=['ClearingPrice']).reset_index(drop=True)[0:8760]
         self.gen.to_csv(os.path.join(self.temp_path,'storage_generation.csv'),index_label='H')
         self.pcs.to_csv(os.path.join(self.temp_path,'spot_prices.csv'),index_label='H')
         if len(self.gen) == len(self.pcs):
