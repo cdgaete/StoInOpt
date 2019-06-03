@@ -15,6 +15,43 @@ def LoadModelData():
     data.load(filename= os.path.join(temp_path,'storage_generation.csv'),index='H', param='gen_phs')
     data.load(filename= os.path.join(temp_path,'scalar.dat'))
     return data
+    
+def StorageConsumptionAllocation():
+    
+    m = AbstractModel()
+    # Sets
+    m.H = Set() # time
+    # Parameters
+    m.ClearingPrice= Param(m.H) # get_day_ahead_prices from ENTSOE
+    m.gen_phs = Param(m.H)
+    m.cap_phs = Param()
+    m.storage_hours = Param()
+    m.roundtrip_eff = Param()
+    m.initial_E_share = Param()
+    # Variables
+    m.CONSUMPTION_phs = Var(m.H, domain=NonNegativeReals)
+    m.ENERGY_LEVEL_phs = Var(m.H, domain=NonNegativeReals)
+    # m.cap_phs = Var(domain=NonNegativeReals) # if this code is enable then the parameter must be commented out. When m.cap_phs is variable the capacity is determined.
+    def expression_max_ngr(m):
+        return  m.storage_hours * m.cap_phs
+    m.MAX_ENERGY_phs = Expression(rule=expression_max_ngr)
+    def objective_rule(m):
+        return sum(m.CONSUMPTION_phs[h]*m.ClearingPrice[h] for h in m.H)
+    # verify the data of clearing price to check if the generation ocours at pick prices, in that case set 'sense=minimize'
+    m.OBJ = Objective(rule=objective_rule,sense=maximize)
+    def C1(m,h):
+        if h == 0:
+            return m.ENERGY_LEVEL_phs[h] == m.initial_E_share*m.MAX_ENERGY_phs + m.CONSUMPTION_phs[h]*(m.roundtrip_eff+1)/2 - m.gen_phs[h]/(m.roundtrip_eff+1)*2
+        else:
+            return m.ENERGY_LEVEL_phs[h] == m.ENERGY_LEVEL_phs[h-1] + m.CONSUMPTION_phs[h]*(m.roundtrip_eff+1)/2 - m.gen_phs[h]/(m.roundtrip_eff+1)*2
+    m.C1 = Constraint(m.H, rule=C1)
+    def C2(m,h):
+        return m.ENERGY_LEVEL_phs[h] <= m.MAX_ENERGY_phs
+    m.C2 = Constraint(m.H, rule=C2)
+    def C3(m,h):
+        return m.CONSUMPTION_phs[h] <= m.cap_phs - m.gen_phs[h]
+    m.C3 = Constraint(m.H, rule=C3)
+    return m
 
 # LP model
 
@@ -26,53 +63,6 @@ class Model:
         self.storage_hours = storage_hours
         self.roundtrip_eff = roundtrip_eff
         self.initial_E_share = initial_E_share
-
-    def StorageConsumptionAllocation(self):
-        
-        self.m = AbstractModel()
-        # Sets
-        self.m.H = Set() # time
-
-        # Parameters
-        self.m.ClearingPrice= Param(self.m.H) # get_day_ahead_prices from ENTSOE
-        self.m.gen_phs = Param(self.m.H)
-        self.m.cap_phs = Param()
-        self.m.storage_hours = Param()
-        self.m.roundtrip_eff = Param()
-        self.m.initial_E_share = Param()
-
-        # Variables
-        self.m.CONSUMPTION_phs = Var(self.m.H, domain=NonNegativeReals)
-        self.m.ENERGY_LEVEL_phs = Var(self.m.H, domain=NonNegativeReals)
-        # m.cap_phs = Var(domain=NonNegativeReals) # if this code is enable then the parameter must be commented out. When m.cap_phs is variable the capacity is determined.
-        
-        def expression_max_ngr(self.m):
-            return  self.m.storage_hours * self.m.cap_phs
-        self.m.MAX_ENERGY_phs = Expression(rule=expression_max_ngr)
-        
-        def objective_rule(self.m):
-            return sum(self.m.CONSUMPTION_phs[h]*self.m.ClearingPrice[h] for h in self.m.H)
-            
-        # verify the data of clearing price to check if the generation ocours at pick prices, in that case set 'sense=minimize'
-        self.m.OBJ = Objective(rule=objective_rule,sense=maximize)
-        
-        def C1(self.m,h):
-            if h == 0:
-                return self.m.ENERGY_LEVEL_phs[h] == self.m.initial_E_share*self.m.MAX_ENERGY_phs + self.m.CONSUMPTION_phs[h]*(self.m.roundtrip_eff+1)/2 - self.m.gen_phs[h]/(self.m.roundtrip_eff+1)*2
-            else:
-                return self.m.ENERGY_LEVEL_phs[h] == self.m.ENERGY_LEVEL_phs[h-1] + self.m.CONSUMPTION_phs[h]*(self.m.roundtrip_eff+1)/2 - self.m.gen_phs[h]/(self.m.roundtrip_eff+1)*2
-        self.m.C1 = Constraint(self.m.H, rule=C1)
-        
-        def C2(self.m,h):
-            return self.m.ENERGY_LEVEL_phs[h] <= self.m.MAX_ENERGY_phs
-        self.m.C2 = Constraint(self.m.H, rule=C2)
-        
-        def C3(self.m,h):
-            return self.m.CONSUMPTION_phs[h] <= self.m.cap_phs - self.m.gen_phs[h]
-        self.m.C3 = Constraint(self.m.H, rule=C3)
-        
-        return self.m
-        
         
     def run(self):
         
