@@ -89,7 +89,7 @@ class Model:
             self.scalar = {'cap_phs':self.cap_phs,'storage_hours':self.storage_hours,'roundtrip_eff':self.roundtrip_eff,'initial_E_share':self.initial_E_share}
 
             self.f=open(os.path.join(self.temp_path,"scalar.dat"), "w+")
-            for k, v in scalar.items():
+            for k, v in self.scalar.items():
                  self.f.write("table %s := %f; \r\n"%(k,v))
             self.f.close()
             self.LP = StorageConsumptionAllocation()
